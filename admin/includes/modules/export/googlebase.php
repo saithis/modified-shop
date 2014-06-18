@@ -264,11 +264,9 @@ class googlebase {
           $versand = $versand + $low_order_fee;
         }
       }
-      if ($products_price > MODULE_SHIPPING_FREEAMOUNT_AMOUNT && MODULE_SHIPPING_FREEAMOUNT_STATUS == 'True') {
-        $versand = $versand;
-      } else if ($products_price > MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING_OVER && MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING == 'true') {
-        $versand = $versand;
-      } else {
+      if ((MODULE_SHIPPING_FREEAMOUNT_STATUS != 'True' || $products_price <= MODULE_SHIPPING_FREEAMOUNT_AMOUNT)
+          && (MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING != 'true' || $products_price <= MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING_OVER)
+      ) {
         $shipping = -1;
         $shippinglist = preg_split("/[:,]/" , $_POST['shippingcosts']); // Hetfield - 2009-08-18 - replaced deprecated function split with preg_split to be ready for PHP >= 5.3
         for ($i=0; $i<sizeof($shippinglist); $i+=2) {

@@ -25,9 +25,6 @@
         $country_id = $_SESSION['customer_country_id'];
         $zone_id = $_SESSION['customer_zone_id'];
       }
-     }else{
-        $country_id = $country_id;
-        $zone_id = $zone_id;
      }
   	
     $tax_query = xtDBquery("select tax_description from " . TABLE_TAX_RATES . " tr left join " . TABLE_ZONES_TO_GEO_ZONES . " za on (tr.tax_zone_id = za.geo_zone_id) left join " . TABLE_GEO_ZONES . " tz on (tz.geo_zone_id = tr.tax_zone_id) where (za.zone_country_id is null or za.zone_country_id = '0' or za.zone_country_id = '" . $country_id . "') and (za.zone_id is null or za.zone_id = '0' or za.zone_id = '" . $zone_id . "') and tr.tax_class_id = '" . $class_id . "' order by tr.tax_priority");
