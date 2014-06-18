@@ -31,7 +31,6 @@
   define('MODULE_PAYMENT_EUTRANSFER_TEXT_INFO','Please transfer the invoice total to your bank account. You will receive the account data by e-mail when your order has been confirmed.');
   define('MODULE_PAYMENT_EUTRANSFER_STATUS_TITLE','Allow Bank Transfer Payment');
   define('MODULE_PAYMENT_EUTRANSFER_STATUS_DESC','Do you want to accept bank transfer order payments?');
-  define('MODULE_PAYMENT_EUTRANSFER_TEXT_INFO','');
   define('MODULE_PAYMENT_EUTRANSFER_BRANCH_TITLE','Branch Location');
   define('MODULE_PAYMENT_EUTRANSFER_BRANCH_DESC','The brach where you have your account.');
 
