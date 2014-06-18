@@ -1,1 +1,15 @@
 .idea
+cache/*
+!cache/.htaccess
+!cache/index.html
+download/*
+!download/.htaccess
+log/*
+!log/index.html
+pub/*
+!pub/.htaccess
+templates_c/*
+!templates_c/.htaccess
+!templates_c/index.html
+includes/local/configure.php
+admin/includes/local/configure.php
