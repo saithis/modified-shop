@@ -106,6 +106,9 @@ require (DIR_FS_ADMIN.DIR_WS_INCLUDES.'filenames.php');
 // list of project database tables
 require_once(DIR_FS_CATALOG.DIR_WS_INCLUDES.'database_tables.php');
 
+// composer autoloader
+require_once(DIR_FS_CATALOG.'vendor/autoload.php');
+
 // include needed functions
 require_once(DIR_FS_INC . 'xtc_db_connect.inc.php');
 require_once(DIR_FS_INC . 'xtc_db_close.inc.php');

@@ -1,0 +1,9 @@
+{
+    "name": "insolution/xtcmodified",
+    "version": "1.6.4642",
+    "require": {
+    },
+    "autoload": {
+        "psr-4": { "": "includes/classes/" }
+    }
+}

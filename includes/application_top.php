@@ -99,6 +99,9 @@ define('SQL_CACHEDIR', DIR_FS_CATALOG.'cache/');
 // graduated prices model or products assigned ?
 define('GRADUATED_ASSIGN', 'true');
 
+// composer autoloader
+require_once(DIR_FS_CATALOG.'vendor/autoload.php');
+
 // Database
 require_once (DIR_FS_INC.'xtc_db_connect.inc.php');
 require_once (DIR_FS_INC.'xtc_db_close.inc.php');
