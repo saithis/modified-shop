@@ -83,7 +83,6 @@
   require_once(DIR_FS_INC.'xtc_db_query_installer.inc.php');
   require_once(DIR_FS_INC.'xtc_db_fetch_array.inc.php');
   require_once(DIR_FS_INC.'xtc_db_num_rows.inc.php');
-  require_once(DIR_FS_INC.'xtc_db_data_seek.inc.php');
   require_once(DIR_FS_INC.'xtc_db_insert_id.inc.php');
   require_once(DIR_FS_INC.'xtc_db_free_result.inc.php');
   require_once(DIR_FS_INC.'xtc_db_test_create_db_permission.inc.php');

@@ -153,10 +153,6 @@ defined( '_VALID_XTC' ) or die( 'Direct Access to this location is not allowed.'
     return mysql_num_rows($db_query);
   }
 
-  function xtc_db_data_seek($db_query, $row_number) {
-    return mysql_data_seek($db_query, $row_number);
-  }
-
   function xtc_db_insert_id() {
     return mysql_insert_id();
   }

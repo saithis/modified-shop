@@ -118,7 +118,6 @@ require_once(DIR_FS_INC . 'xtc_db_queryCached.inc.php');
 require_once(DIR_FS_INC . 'xtc_db_perform.inc.php');
 require_once(DIR_FS_INC . 'xtc_db_fetch_array.inc.php');
 require_once(DIR_FS_INC . 'xtc_db_num_rows.inc.php');
-require_once(DIR_FS_INC . 'xtc_db_data_seek.inc.php');
 require_once(DIR_FS_INC . 'xtc_db_insert_id.inc.php');
 require_once(DIR_FS_INC . 'xtc_db_free_result.inc.php');
 require_once(DIR_FS_INC . 'xtc_db_fetch_fields.inc.php');
