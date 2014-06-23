@@ -71,3 +71,17 @@
     $status='<strong><font color="#ff0000">'.TEXT_ERROR.'</font></strong><br />'.TEXT_GDLIB_MISSING_GIF_SUPPORT;
   }
   $ok_message.= TEXT_GDLIB_GIF_VERSION .' .............. '.$status.'<br /><hr noshade />';
+
+  //BOF *************  composer install executed *************
+  if (file_exists('../vendor/autoload.php')) {
+    $status='<strong>OK</strong>';
+  } else {
+    $status='<strong><font color="#ff0000">'.TEXT_WARNING.'</font></strong><br />';
+    $status.='Bitte führe folgende Schritte durch:<br>';
+    $status.='1. Lade dir <a href="https://getcomposer.org/download/">composer</a> herunter<br />';
+    $status.='2. Speichere die composer.phar Datei in das Hauptverzeichnis von xtc<br />';
+    $status.='3. Führe über die console <b><i>php composer.phar install</i></b> aus<br />';
+    $status.='4. Wenn der Befehl erfolgreich ausgeführt wurde, lade diese Seite neu und führe die Installation fort';
+  }
+  $ok_message.='composer.phar install executed .. '.$status.'<br /><hr noshade />';
+  //EOF *************  composer install executed *************
