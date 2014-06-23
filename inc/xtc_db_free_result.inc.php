@@ -14,8 +14,11 @@
 
    Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/
-   
-  function xtc_db_free_result($db_query) {
-    return mysql_free_result($db_query);
-  }
- ?>
+
+/**
+ * @param $db_query \Doctrine\DBAL\Driver\Statement
+ * @return mixed
+ */
+function xtc_db_free_result($db_query) {
+  return $db_query->closeCursor();
+}

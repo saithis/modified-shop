@@ -15,10 +15,7 @@
    Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/
    
-  function xtc_db_close($link = 'db_link') {
-    global $$link;
-
-    return mysql_close($$link);
-  }
-
- ?>
+function xtc_db_close($link = 'db_link') {
+  $conn = xtc_db_get_conn($link);
+  $conn->close();
+}

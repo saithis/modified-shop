@@ -14,15 +14,14 @@ $Config['Enabled'] = false;
 $secure_id = preg_replace('/[^0-9a-zA-Z]/','',$_GET['sid']);
 
 if (!empty($secure_id)) {
-  $secure_id = mysql_real_escape_string($secure_id);
   $secure_id = strip_tags($secure_id);
-  $result = mysql_query('SELECT flag
+  $result = xtc_db_query('SELECT flag
                            FROM sessions s
-                          WHERE s.sesskey = "'. $secure_id .'"
+                          WHERE s.sesskey = "'. xtc_db_input($secure_id) .'"
                           LIMIT 1
                         ');
-  if(mysql_num_rows($result) > 0) {
-    $result_array = mysql_fetch_array($result);
+  if(xtc_db_num_rows($result) > 0) {
+    $result_array = xtc_db_fetch_array($result);
     if (isset($result_array['flag']) && $result_array['flag'] == 'admin') {
       $Config['Enabled'] = true;
     }

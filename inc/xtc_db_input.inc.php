@@ -14,17 +14,18 @@
 
    Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/
-   
 
-  function xtc_db_input($string, $link = 'db_link') {
-  global $$link;
-
-  if (function_exists('mysql_real_escape_string')) {
-    return mysql_real_escape_string($string, $$link);
-  } elseif (function_exists('mysql_escape_string')) {
-    return mysql_escape_string($string);
+/**
+ * @deprecated
+ * @param $string
+ * @param string $link
+ * @return string Escaped string, but without quotes!
+ */
+function xtc_db_input($string, $link = 'db_link') {
+  $conn = xtc_db_get_conn($link);
+  $var = $conn->quote($string);
+  if($var[0] == '\''){
+    $var = substr($var, 1, strlen($var)-2);
   }
-
-  return addslashes($string);
+  return $var;
 }
- ?>

@@ -14,34 +14,26 @@
 
    Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/
-  /*
-  function xtc_db_fetch_array($db_query) {
-    return mysql_fetch_array($db_query, MYSQL_ASSOC);
+
+/**
+ * @param $db_query \Doctrine\DBAL\Driver\Statement
+ * @param bool $cq
+ * @return bool|mixed
+ */
+function xtc_db_fetch_array(&$db_query, $cq = false, $fetchType = \PDO::FETCH_ASSOC) {
+  if (defined('DB_CACHE') && DB_CACHE == 'true' && $cq) {
+    if (!is_array($db_query) || !count($db_query)) {
+      return false;
+    }
+    $curr = current($db_query);
+    next($db_query);
+    return $curr;
+  } else {
+    if (is_array($db_query)) {
+      $curr = current($db_query);
+      next($db_query);
+      return $curr;
+    }
+    return $db_query->fetch($fetchType);
   }
-  */
-
-
-  function xtc_db_fetch_array(&$db_query,$cq=false) {
-
-      //BOF - DokuMan - 2010-02-25 - also check for defined DB_CACHE constant
-      if (defined('DB_CACHE') && DB_CACHE=='true' && $cq) {
-      //if (DB_CACHE=='true' && $cq) {
-      //EOF - DokuMan - 2010-02-25 - also check for defined DB_CACHE constant
-
-      	// BOF - Tomcraft - 2009-08-18 - fixed bug with switched on DB-CACHE in relation with multi-language metatags.php
-        //if (!count($db_query)) return false;
-        if (!is_array($db_query) || !count($db_query)) return false;
-        // BOF - Tomcraft - 2009-08-18 - fixed bug with switched on DB-CACHE in relation with multi-language metatags.php
-        $curr = current($db_query);
-        next($db_query);
-        return $curr;
-      } else {
-          if (is_array($db_query)) {
-          $curr = current($db_query);
-          next($db_query);
-          return $curr;
-          }
-        return mysql_fetch_array($db_query, MYSQL_ASSOC);
-      }
-  }
-?>
+}

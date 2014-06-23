@@ -72,10 +72,12 @@
                   $db['DB_SERVER_PASSWORD'] = trim(stripslashes($_POST['DB_SERVER_PASSWORD']));
                   $db['DB_DATABASE'] = trim(stripslashes($_POST['DB_DATABASE']));
                   xtc_db_connect_installer($db['DB_SERVER'], $db['DB_SERVER_USERNAME'], $db['DB_SERVER_PASSWORD']);
+                  xtc_db_query_installer('create database ' . $db['DB_DATABASE']);
+                  xtc_db_select_db($db['DB_DATABASE']);
                   $sql = 'ALTER DATABASE '.$db['DB_DATABASE'].' DEFAULT CHARACTER SET '.$character_set.' COLLATE '.$collation.";";
-                  @mysql_query($sql);
+                  xtc_db_query_installer($sql);
                   $sql = 'SET NAMES '.$character_set.' COLLATE '.$collation.";";
-                  @mysql_query($sql);
+                  xtc_db_query_installer($sql);
                   $db_error = false;
                   $sql_file = DIR_FS_CATALOG . DIR_MODIFIED_INSTALLER.'/'.MODIFIED_SQL;
                   xtc_db_install($db['DB_DATABASE'], $sql_file);

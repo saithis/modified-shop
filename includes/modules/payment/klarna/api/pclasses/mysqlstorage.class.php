@@ -147,11 +147,11 @@ class MySQLStorage extends PCStorage {
             throw new Exception('Failed to connect to database! ('.mysql_error().')');
         }
 
-        if(!mysql_query('CREATE DATABASE IF NOT EXISTS `'.$this->dbName.'`', $this->link)) {
+        if(!xtc_db_query('CREATE DATABASE IF NOT EXISTS `'.$this->dbName.'`', $this->link)) {
             throw new Exception('Database not existing, failed to create! ('.mysql_error().')');
         }
 
-        $create = mysql_query(
+        $create = xtc_db_query(
                 "CREATE TABLE IF NOT EXISTS `".$this->dbName."`.`".$this->dbTable."` (
                     `eid` int(10) unsigned NOT NULL,
                     `id` int(10) unsigned NOT NULL,
@@ -233,7 +233,7 @@ class MySQLStorage extends PCStorage {
         try {
             $this->splitURI($uri);
             $this->connect();
-            if(($result = mysql_query('SELECT * FROM `'.$this->dbName.'`.`'.$this->dbTable.'`', $this->link)) === false) {
+            if(($result = xtc_db_query('SELECT * FROM `'.$this->dbName.'`.`'.$this->dbTable.'`', $this->link)) === false) {
                 throw new Exception('SELECT query failed! ('.mysql_error().')');
             }
             while($row = mysql_fetch_assoc($result)) {
@@ -260,10 +260,10 @@ class MySQLStorage extends PCStorage {
             foreach($this->pclasses as $pclasses) {
                 foreach($pclasses as $pclass) {
                     //Remove the pclass if it exists.
-                    mysql_query("DELETE FROM `".$this->dbName.'`.`'.$this->dbTable."` WHERE `id` = '".$pclass->getId()."' AND `eid` = '".$pclass->getEid()."'");
+                    xtc_db_query("DELETE FROM `".$this->dbName.'`.`'.$this->dbTable."` WHERE `id` = '".$pclass->getId()."' AND `eid` = '".$pclass->getEid()."'");
 
                     //Insert it again.
-                    $result = mysql_query(
+                    $result = xtc_db_query(
                         "INSERT INTO `".$this->dbName.'`.`'.$this->dbTable."`
                            (`eid`, `id`, `type`, `description`, `months`, `interestrate`, `invoicefee`, `startfee`, `minamount`, `country`, `expire`)
                          VALUES
@@ -299,7 +299,7 @@ class MySQLStorage extends PCStorage {
             unset($this->pclasses);
             $this->connect();
 
-            mysql_query("DELETE FROM `".$this->dbName."`.`".$this->dbTable."`", $this->link);
+            xtc_db_query("DELETE FROM `".$this->dbName."`.`".$this->dbTable."`", $this->link);
         }
         catch(Exception $e) {
             throw new KlarnaException("Error in " . __METHOD__ . ": " . $e->getMessage());

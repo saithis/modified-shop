@@ -140,9 +140,9 @@ require (DIR_WS_INCLUDES.'head.php');
           foreach ($banktransfer as $rec) {
             $sql = sprintf('insert into banktransfer_blz (blz, bankname, prz) values (%s, \'%s\', \'%s\')',
            (int)$rec['blz'], xtc_db_input($rec['bankname']), xtc_db_input($rec['prz']));
-            xtc_db_query($sql);
-            if(mysql_affected_rows() != 0) {
-              $j = $j + mysql_affected_rows(); // sum up affected rows
+            $num_affected_rows = xtc_db_update($sql);
+            if($num_affected_rows != 0) {
+              $j = $j + $num_affected_rows; // sum up affected rows
             }
           }
           echo '<span class="messageStackSuccess">'.$j.BLZ_UPDATE_SUCCESS_TEXT.'</span>';

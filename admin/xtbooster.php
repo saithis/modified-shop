@@ -430,7 +430,8 @@
           if(defined('TECDOC_TABLE') && defined('TECDOC_COLUMN') && defined('TECDOC_PRODUCTS_ID_ALIAS')) {
             $kTypeQuery = xsb_db_query("SELECT ".TECDOC_COLUMN." FROM ".TECDOC_TABLE." WHERE ".TECDOC_PRODUCTS_ID_ALIAS."=".$item['PRODUCT_ID']." LIMIT 1");
             if(xtc_db_num_rows($kTypeQuery) > 0) {
-              $kType = mysql_result($kTypeQuery, 0, 0);
+              $tmp_result = xtc_db_fetch_array($kTypeQuery);
+              $kType = $tmp_result[0];
             } else {
               $kType = '';
             }

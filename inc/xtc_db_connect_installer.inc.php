@@ -16,35 +16,45 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------------------------*/
 
-  function xtc_db_connect_installer($server, $username, $password, $link = 'db_link') {
-    global $$link, $db_error;
+function xtc_db_connect_installer($server, $username, $password, $link = 'db_link') {
+  global $db_error, $db_connections;
 
-    $db_error = false;
+  $db_error = false;
 
-    if (!$server) {
-      $db_error = 'No Server selected.';
-      return false;
-    }
-
-    $$link = @mysql_connect($server, $username, $password) or $db_error = mysql_error();
-
-    //vr - 2010-01-01 - Disable "STRICT" mode for MySQL 5!
-    if(version_compare(@mysql_get_server_info(), '5.0.0', '>=')) {
-      @mysql_query("SET SESSION sql_mode=''");
-    }
-
-    // set charset defined in configure.php
-    if(!defined('DB_SERVER_CHARSET')) {
-      define('DB_SERVER_CHARSET','latin1');
-    }
- 
-    if(function_exists('mysql_set_charset')) { //requires MySQL 5.0.7 or later
-      mysql_set_charset(DB_SERVER_CHARSET);
-    } else {
-      $collation = DB_SERVER_CHARSET == 'utf8' ? 'utf8_general_ci' : 'latin1_german1_ci';      
-      mysql_query('SET NAMES '.DB_SERVER_CHARSET. ' COLLATE '. $collation );      
-    }
-
-    return $$link;
+  if (!$server) {
+    $db_error = 'No Server selected.';
+    return false;
   }
- ?>
+
+  // set charset defined in configure.php
+  if(!defined('DB_SERVER_CHARSET')) {
+    define('DB_SERVER_CHARSET','latin1');
+  }
+  $collation = DB_SERVER_CHARSET == 'utf8' ? 'utf8_general_ci' : 'latin1_german1_ci';
+
+  $configParams = array(
+    'host' => $server,
+    'user' => $username,
+    'password' => $password,
+    'dbname' => null,
+    'driver' => 'pdo_mysql',
+    'charset' => 'latin1',
+    'driverOptions' => array(
+      \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES ".DB_SERVER_CHARSET." COLLATE ".$collation
+    )
+  );
+
+  try {
+    $config = new \Doctrine\DBAL\Configuration();
+    $conn = \Doctrine\DBAL\DriverManager::getConnection($configParams, $config);
+  }
+  catch(\Doctrine\DBAL\DBALException $e){
+    xtc_db_error('', '', $e->getMessage());
+    die();
+  }
+
+  // save the connection in a global var
+  $db_connections[$link] = $conn;
+
+  return $conn;
+}

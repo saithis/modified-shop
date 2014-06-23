@@ -31,19 +31,9 @@
 
   require_once('includes/functions/general.php');
 
-  require_once(DIR_FS_INC . 'xtc_db_connect.inc.php');
-  require_once(DIR_FS_INC . 'xtc_db_close.inc.php');
-  require_once(DIR_FS_INC . 'xtc_db_error.inc.php');
-  require_once(DIR_FS_INC . 'xtc_db_query.inc.php');
+  require_once(DIR_FS_CATALOG.'includes/functions/database.php');
   require_once(DIR_FS_INC . 'xtc_db_queryCached.inc.php');
-  require_once(DIR_FS_INC . 'xtc_db_perform.inc.php');
-  require_once(DIR_FS_INC . 'xtc_db_fetch_array.inc.php');
-  require_once(DIR_FS_INC . 'xtc_db_num_rows.inc.php');
-  require_once(DIR_FS_INC . 'xtc_db_insert_id.inc.php');
-  require_once(DIR_FS_INC . 'xtc_db_free_result.inc.php');
-  require_once(DIR_FS_INC . 'xtc_db_fetch_fields.inc.php');
   require_once(DIR_FS_INC . 'xtc_db_output.inc.php');
-  require_once(DIR_FS_INC . 'xtc_db_input.inc.php');
 
   xtc_db_connect() or die('Unable to connect to database server!');
 
@@ -104,9 +94,9 @@
     unset($_SESSION['dump']);
     xtc_set_time_limit(0);
     //BOF Disable "STRICT" mode!
-    $vers = @mysql_get_client_info();
+    $vers = @xtc_db_get_client_info();
     if(substr($vers,0,1) > 4) {
-      @mysql_query("SET SESSION sql_mode=''");
+      @xtc_db_query("SET SESSION sql_mode=''");
     }
     //EOF Disable "STRICT" mode!
     $restore['file'] = DIR_FS_BACKUP . $_GET['file'];
@@ -158,14 +148,14 @@
 
     // Disable Keys of actual table to speed up restoring
     if (sizeof($restore['tables_to_restore'])==0 && ($restore['actual_table'] > ''&& $restore['actual_table']!='unbekannt'))
-      @mysql_query('/*!40000 ALTER TABLE `'.$restore['actual_table'].'` DISABLE KEYS */;');
+      @xtc_db_query('/*!40000 ALTER TABLE `'.$restore['actual_table'].'` DISABLE KEYS */;');
     while (($a < $restore['anzahl_zeilen']) && (!$restore['fileEOF']) && !$restore['EOB']) {
       xtc_set_time_limit(0);
       $sql_command = get_sqlbefehl();
       //Echo $sql_command;
       if ($sql_command > '') {
         if (!RESTORE_TEST) {
-          $res = mysql_query($sql_command);
+          $res = xtc_db_query($sql_command);
           if ($res===false) {
             // Bei MySQL-Fehlern sofort abbrechen und Info ausgeben
             $meldung=@mysql_error;

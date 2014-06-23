@@ -16,56 +16,56 @@
    ---------------------------------------------------------------------------------------*/
    
 function xtc_db_test_create_db_permission($database) {
-    global $db_error;
+  global $db_error;
+  $conn = xtc_db_get_conn();
 
-    $db_created = false;
-    $db_error = false;
+  $db_error = false;
 
-    if (!$database) {
-      $db_error = 'No Database selected.';
-      return false;
+  if (!$database) {
+    $db_error = 'No Database selected.';
+    return false;
+  }
+
+  $sm = $conn->getSchemaManager();
+  $databases = $sm->listDatabases();
+  if (!in_array($database, $databases)) {
+    try {
+      xtc_db_query_installer('create database ' . $database);
+      xtc_db_select_db($database);
     }
-
-    if (!$db_error) {
-      if (!@xtc_db_select_db($database)) {
-        $db_created = true;
-// BOF - Dokuman - 2009-05-27 - xtc_db_query_installer typo      
-//        if (!@xtc_db_query_installer_installer('create database ' . $database)) {
-        if (!@xtc_db_query_installer('create database ' . $database)) {
-// EOF - Dokuman - 2009-05-27 - xtc_db_query_installer typo
-        
-          $db_error = mysql_error();
-        }
-      } else {
-        $db_error = mysql_error();
-      }
-      
-      if (!$db_error) {
-        if (@xtc_db_select_db($database)) {
-          if (@xtc_db_query_installer('create table temp ( temp_id int(5) )')) {
-            if (@xtc_db_query_installer('drop table temp')) {
-              if ($db_created) {
-                if (@xtc_db_query_installer('drop database ' . $database)) {
-                } else {
-                  $db_error = mysql_error();
-                }
-              }
-            } else {
-              $db_error = mysql_error();
-            }
-          } else {
-            $db_error = mysql_error();
-          }
-        } else {
-          $db_error = mysql_error();
-        }
-      }
-    }
-
-    if ($db_error) {
+    catch(\Doctrine\DBAL\DBALException $e){
+      $db_error = $e->getMessage();
       return false;
-    } else {
-      return true;
     }
   }
- ?>
+
+  try {
+    $sql = 'ALTER DATABASE '.$database.' DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;';
+    xtc_db_query_installer($sql);
+    $sql = 'SET NAMES utf8 COLLATE utf8_general_ci;';
+    xtc_db_query_installer($sql);
+  }
+  catch(\Doctrine\DBAL\DBALException $e){
+    $db_error = $e->getMessage();
+    return false;
+  }
+
+  try {
+    xtc_db_query_installer('create table temp ( temp_id int(5) )');
+    xtc_db_query_installer('drop table temp');
+  }
+  catch(\Doctrine\DBAL\DBALException $e){
+    $db_error = $e->getMessage();
+    return false;
+  }
+
+  try {
+    xtc_db_query_installer('drop database ' . $database);
+  }
+  catch(\Doctrine\DBAL\DBALException $e){
+    $db_error = $e->getMessage();
+    return false;
+  }
+
+  return true;
+}

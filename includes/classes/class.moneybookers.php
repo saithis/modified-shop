@@ -249,7 +249,7 @@ class fcnt_moneybookers {
 			$trid = xtc_create_random_value(16, "digits");
 			$trid =  chr(88).chr(84).chr(67) . $trid;
 			$result = xtc_db_query("SELECT mb_TRID FROM payment_moneybookers WHERE mb_TRID = '".$trid."'");
-		} while (mysql_num_rows($result));
+		} while (xtc_db_num_rows($result));
 
 		return $trid;
 
@@ -287,7 +287,7 @@ class fcnt_moneybookers {
 		//BOF - Hetfield - 2010-01-28 - replace mysql_list_tables with query SHOW TABLES -> PHP5.3 deprecated
 		//$tables = mysql_list_tables(DB_DATABASE);
 		$tables = xtc_db_query("SHOW TABLES LIKE 'payment_moneybookers'");			
-		while ($checktables = mysql_fetch_array($tables, MYSQL_NUM)) {
+		while ($checktables = xtc_db_fetch_row($tables)) {
 			if ($checktables[0] == 'payment_moneybookers')  $mb_installed=true;
 		}
 		//EOF - Hetfield - 2010-01-28 - replace mysql_list_tables with query SHOW TABLES -> PHP5.3 deprecated

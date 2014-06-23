@@ -68,16 +68,12 @@
 
   $db_error = false;
   xtc_db_connect_installer($db['DB_SERVER'], $db['DB_SERVER_USERNAME'], $db['DB_SERVER_PASSWORD']);
-  $sql = 'ALTER DATABASE '.$db['DB_DATABASE'].' DEFAULT CHARACTER SET '.$character_set.' COLLATE '.$collation.";";
-  @mysql_query($sql);
-  $sql = 'SET NAMES '.$character_set.' COLLATE '.$collation.";";
-  @mysql_query($sql);
 
   //check MySQL *server* version
   if (!$db_error) {
     if (function_exists('version_compare')) {
-      if(version_compare(mysql_get_server_info(), "4.1.2", "<") && strpos(strtolower(mysql_get_server_info()), 'native')=== false){
-        $db_error = '<br /><strong>' . TEXT_DB_SERVER_VERSION_ERROR .  ' 4.1.2. <br /><br />' . TEXT_DB_SERVER_VERSION . mysql_get_server_info() . '</strong>.';
+      if(version_compare(xtc_db_get_server_info(), "4.1.2", "<") && strpos(strtolower(xtc_db_get_server_info()), 'native')=== false){
+        $db_error = '<br /><strong>' . TEXT_DB_SERVER_VERSION_ERROR .  ' 4.1.2. <br /><br />' . TEXT_DB_SERVER_VERSION . xtc_db_get_server_info() . '</strong>.';
       }
     }
   }
@@ -85,9 +81,9 @@
   $db_warning = '';
   if (!$db_error) {
     if (function_exists('version_compare')) {
-      preg_match("/[0-9]\.[0-9]\.[0-9]/",mysql_get_client_info(), $client_info);
-      if(version_compare($client_info[0], "4.1.2", "<") && strpos(strtolower(mysql_get_client_info()), 'native')=== false){
-        $db_warning = '<strong>' . TEXT_DB_CLIENT_VERSION_WARNING .  '<br /><br />' . TEXT_DB_CLIENT_VERSION . mysql_get_client_info() . '</strong>.';
+      preg_match("/[0-9]\.[0-9]\.[0-9]/",xtc_db_get_client_info(), $client_info);
+      if(version_compare($client_info[0], "4.1.2", "<") && strpos(strtolower(xtc_db_get_client_info()), 'native')=== false){
+        $db_warning = '<strong>' . TEXT_DB_CLIENT_VERSION_WARNING .  '<br /><br />' . TEXT_DB_CLIENT_VERSION . xtc_db_get_client_info() . '</strong>.';
       }
     }
   }

@@ -319,14 +319,8 @@
       global $_GET;
       include(DIR_FS_CATALOG . 'lang/' . $_SESSION['language'] . '/admin/paypal.php');
       $db_installed = false;
-      //BOF - Dokuman - 2009-11-23 - replace mysql_list_tables by xtc_db_query -> PHP5.3 deprecated
-      //$tables = mysql_list_tables(DB_DATABASE);
-      // BOF - Tomcraft - 2010-01-20 - Fix errors where database names include a minus
-      //$tables = xtc_db_query('SHOW TABLES FROM ' . DB_DATABASE);
       $tables = xtc_db_query('SHOW TABLES FROM `' . DB_DATABASE . '`');
-      // EOF - Tomcraft - 2010-01-20 - Fix errors where database names include a minus
-      //EOF - Dokuman - 2009-11-23 - replace mysql_list_tables by xtc_db_query -> PHP5.3 deprecated
-      while($row = mysql_fetch_row($tables)) {
+      while($row = xtc_db_fetch_row($tables)) {
         if($row[0] == TABLE_PAYPAL) {
           $db_installed=true;
 				break;

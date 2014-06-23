@@ -266,7 +266,7 @@ class paypal {
 		$db_installed = false;
 		//BOF - Hetfield - 2010-01-28 - replace mysql_list_tables with query SHOW TABLES -> PHP5.3 deprecated
 		$tables = xtc_db_query("SHOW TABLES LIKE '".TABLE_PAYPAL."'");
-		if ($checktables = mysql_fetch_array($tables, MYSQL_NUM)) { //mysql_fetch_array used with "MYSQL_NUM", xtc_db_fetch_array() not applicable
+		if ($checktables = xtc_db_fetch_row($tables)) {
 			$db_installed = ($checktables[0] == TABLE_PAYPAL);
 		}
 		//EOF - Hetfield - 2010-01-28 - replace mysql_list_tables with query SHOW TABLES -> PHP5.3 deprecated
@@ -281,7 +281,7 @@ class paypal {
 		//BOF - Hetfield - 2010-02-04 - replace mysql_list_tables with query SHOW TABLES -> PHP5.3 deprecated
 		//$tables = mysql_list_tables(DB_DATABASE);
 		$tables = xtc_db_query("SHOW TABLES LIKE '".TABLE_PAYPAL_STATUS_HISTORY."'");
-		if ($checktables = mysql_fetch_array($tables, MYSQL_NUM)) { //mysql_fetch_array used with "MYSQL_NUM", xtc_db_fetch_array() not applicable
+		if ($checktables = xtc_db_fetch_row($tables)) {
 			$db_installed = ($checktables[0] == TABLE_PAYPAL_STATUS_HISTORY);
 		}
 		//EOF - Hetfield - 2010-02-04 - replace mysql_list_tables with query SHOW TABLES -> PHP5.3 deprecated

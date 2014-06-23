@@ -1399,7 +1399,7 @@ function xtc_output_string($string, $translate = false, $protected = false) {
 
                   //MYSQL information
                   'db_server' => DB_SERVER, 'db_ip' => gethostbyname(DB_SERVER),
-                  'db_version' => 'MySQL '. (function_exists('mysql_get_server_info') ? mysql_get_server_info() : ''),
+                  'db_version' => 'MySQL '. (function_exists('xtc_db_get_server_info') ? xtc_db_get_server_info() : ''),
                   'db_date' => $db['datetime'], //DokuMan - 2011-05-10 - Update date with timezone
 
                   //PHP information

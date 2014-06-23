@@ -18,7 +18,7 @@
   function xtc_random_select($query) {
     $random_product = '';
 
-    $random_sql = "SELECT * FROM ($query) ORDER BY RAND() LIMIT 1";
+    $random_sql = "SELECT * FROM ($query) d0BevfkwDalw ORDER BY RAND() LIMIT 1";
     $random_query = xtc_db_query($random_sql);
     $num_rows = xtc_db_num_rows($random_query);
     if ($num_rows > 0) {

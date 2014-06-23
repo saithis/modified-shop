@@ -80,18 +80,8 @@ require(DIR_WS_INCLUDES . 'database_tables.php');
 define('STORE_DB_TRANSACTIONS', 'false');
 
 // include used functions
-require_once(DIR_FS_INC . 'xtc_db_connect.inc.php');
-require_once(DIR_FS_INC . 'xtc_db_close.inc.php');
-require_once(DIR_FS_INC . 'xtc_db_error.inc.php');
-require_once(DIR_FS_INC . 'xtc_db_perform.inc.php');
-require_once(DIR_FS_INC . 'xtc_db_query.inc.php');
-require_once(DIR_FS_INC . 'xtc_db_fetch_array.inc.php');
-require_once(DIR_FS_INC . 'xtc_db_num_rows.inc.php');
-require_once(DIR_FS_INC . 'xtc_db_insert_id.inc.php');
-require_once(DIR_FS_INC . 'xtc_db_free_result.inc.php');
-require_once(DIR_FS_INC . 'xtc_db_fetch_fields.inc.php');
+require_once(DIR_FS_CATALOG.'includes/functions/database.php');
 require_once(DIR_FS_INC . 'xtc_db_output.inc.php');
-require_once(DIR_FS_INC . 'xtc_db_input.inc.php');
 require_once(DIR_FS_INC . 'xtc_db_prepare_input.inc.php');
 require_once (DIR_FS_INC.'html_encoding.php'); //new function for PHP5.4
 

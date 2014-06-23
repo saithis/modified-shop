@@ -310,8 +310,8 @@ h1 {
 	?>
         <?php
 	  $abfrage = "SELECT * FROM " . TABLE_CUSTOMERS . " ORDER BY customers_date_added DESC LIMIT 15";
-	  $ergebnis = mysql_query($abfrage);
-	  while($row = mysql_fetch_object($ergebnis)){
+	  $ergebnis = xtc_db_query($abfrage);
+	  while($row = xtc_db_fetch_object($ergebnis)){
 	?>
         <tr>
           <td class="dataTableContent" width="25%"><?php  echo $row-> customers_lastname; ?>
@@ -359,8 +359,8 @@ h1 {
 	?>
         <?php
 	  $abfrage = "SELECT * FROM " . TABLE_ORDERS . " ORDER BY orders_id DESC LIMIT 20";
-	  $ergebnis = mysql_query($abfrage);
-	  while($row = mysql_fetch_object($ergebnis)){
+	  $ergebnis = xtc_db_query($abfrage);
+	  while($row = xtc_db_fetch_array($ergebnis, false, \PDO::FETCH_OBJ)){
 	?>
         <tr>
           <td class="dataTableContent" width="25%"><font face="Verdana">

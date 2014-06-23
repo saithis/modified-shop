@@ -70,13 +70,8 @@ if(isset($_POST['repair'])  || isset($_POST['show_error'])) {
     require('includes/configure.php');
   }
   require_once(DIR_WS_INCLUDES . 'database_tables.php');
-  require_once(DIR_FS_INC . 'xtc_db_connect.inc.php');
-  require_once(DIR_FS_INC . 'xtc_db_close.inc.php');
-  require_once(DIR_FS_INC . 'xtc_db_error.inc.php');
-  require_once(DIR_FS_INC . 'xtc_db_query.inc.php');
+  require_once(DIR_FS_CATALOG.DIR_WS_INCLUDES.'functions/database.php');
   require_once(DIR_FS_INC . 'xtc_not_null.inc.php');
-  require_once(DIR_FS_INC . 'xtc_db_fetch_array.inc.php');
-  require_once(DIR_FS_INC . 'xtc_db_input.inc.php');
   require_once(DIR_FS_INC . 'xtc_validate_password.inc.php');
   require_once(DIR_WS_CLASSES.'class.inputfilter.php');
 

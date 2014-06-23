@@ -14,8 +14,12 @@
 
    Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/
-   
-  function xtc_db_insert_id() {
-    return mysql_insert_id();
-  }
- ?>
+
+/**
+ * @param string $link
+ * @return int
+ */
+function xtc_db_insert_id($link = 'db_link') {
+  $conn = xtc_db_get_conn($link);
+  return $conn->lastInsertId();
+}

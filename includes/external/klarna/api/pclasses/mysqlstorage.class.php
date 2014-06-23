@@ -123,7 +123,7 @@ class MySQLStorage extends PCStorage
             );
         }
 
-        if (!mysql_query(
+        if (!xtc_db_query(
             "CREATE DATABASE IF NOT EXISTS `{$this->dbName}`",
             $this->link
         )
@@ -133,7 +133,7 @@ class MySQLStorage extends PCStorage
             );
         }
 
-        $create = mysql_query(
+        $create = xtc_db_query(
             "CREATE TABLE IF NOT EXISTS `{$this->dbName}`.`{$this->dbTable}` (
                 `eid` int(10) unsigned NOT NULL,
                 `id` int(10) unsigned NOT NULL,
@@ -230,7 +230,7 @@ class MySQLStorage extends PCStorage
     {
         $this->splitURI($uri);
         $this->connect();
-        $result = mysql_query(
+        $result = xtc_db_query(
             "SELECT * FROM `{$this->dbName}`.`{$this->dbTable}`",
             $this->link
         );
@@ -264,14 +264,14 @@ class MySQLStorage extends PCStorage
         foreach ($this->pclasses as $pclasses) {
             foreach ($pclasses as $pclass) {
                 //Remove the pclass if it exists.
-                mysql_query(
+                xtc_db_query(
                     "DELETE FROM `{$this->dbName}`.`{$this->dbTable}`
                      WHERE `id` = '{$pclass->getId()}'
                      AND `eid` = '{$pclass->getEid()}'"
                 );
 
                 //Insert it again.
-                $result = mysql_query(
+                $result = xtc_db_query(
                     "INSERT INTO `{$this->dbName}`.`{$this->dbTable}`
                        (`eid`,
                         `id`,
@@ -322,7 +322,7 @@ class MySQLStorage extends PCStorage
             unset($this->pclasses);
             $this->connect();
 
-            mysql_query(
+            xtc_db_query(
                 "DELETE FROM `{$this->dbName}`.`{$this->dbTable}`",
                 $this->link
             );

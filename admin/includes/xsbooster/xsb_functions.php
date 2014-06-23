@@ -136,30 +136,17 @@ function utf8_substr($str, $start) {
 	}
 }
 
-// DB-Query mit retry falls 'MySQL Server has gone away'
+// DB-Query mit retry falls 'MySQL Server has gone away' TODO: implement retries
 function xsb_db_query($query, $link = 'db_link')
 {
-    global $$link, $logger;
-
-	if ($$link == null) {
-		// Moeglicherweise adodb
-		return xtc_db_query($query);
-	}
+    global $logger;
 
     if (STORE_DB_TRANSACTIONS == 'true') {
       if (!is_object($logger)) $logger = new logger;
       $logger->write($query, 'QUERY');
     }
 
-    do {
-    $result = mysql_query($query, $$link);
-    } while (2006 == mysql_errno());
-
-    if(0 != mysql_errno()) { xtc_db_error($query, mysql_errno(), mysql_error()); }
-
-    if (STORE_DB_TRANSACTIONS == 'true') {
-      if (mysql_error()) $logger->write(mysql_error(), 'ERROR');
-    }
+    $result = xtc_db_query($query, $link);
 
     return $result;
 }

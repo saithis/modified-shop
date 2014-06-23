@@ -132,7 +132,7 @@ function print_xml_status ($code, $action, $msg, $mode, $item, $value)
 function table_exists($table_name)
 {
   $Table = xtc_db_query("show tables like '" . $table_name . "'");
-  if(mysql_fetch_row($Table) === false)
+  if(xtc_db_fetch_row($Table) === false)
   {
     return(false);
   } else {
@@ -145,7 +145,7 @@ function table_exists($table_name)
 function column_exists($table, $column)
 {
   $Table = xtc_db_query("show columns from $table LIKE '" . $column . "'");
-  if(mysql_fetch_row($Table) === false)
+  if(xtc_db_fetch_row($Table) === false)
   {
     return(false);
   } else {
@@ -1180,40 +1180,23 @@ function UpdateTables ()
              'user varchar(64) NOT NULL default "", pw varchar(64) NOT NULL default "", method varchar(64) NOT NULL default "",'.
              'action varchar(64) NOT NULL default "", post_data mediumtext, get_data mediumtext, PRIMARY KEY  (id))';
 
-  $link = 'db_link';
-
-  global $$link, $logger;
-
   for ($i=1;$i<=13;$i++)
   {
     echo '<b>SQL:</b> ' . $sql[$i] . '<br>';;
 
-    if (@xtc_db_query($sql[$i], $$link))
-    {
+    try {
+      xtc_db_query($sql[$i]);
       echo '<b>Ergebnis : OK</b>';
     }
-     else
-    {
-      $error = mysql_error();
-      $pos=strpos($error,'Duplicate column name');
+    catch(\Doctrine\DBAL\DBALException $e){
+      if(strpos($e->getMessage(), 'already exists') !== false){
+        echo '<b>Ergebnis : OK, Spalte/Tabelle existierte bereits !</b>';
+      }
+      else {
+        echo '<b>Ergebnis : </b><font color="red"><b>' . $e->getMessage() . '</b></font>';
+      }
+    }
 
-      if ($pos===false)
-      {
-        $pos=strpos($error,'already exists');
-        if ($pos===false)
-        {
-          echo '<b>Ergebnis : </b><font color="red"><b>' . $error . '</b></font>';
-      }
-        else
-      {
-        echo '<b>Ergebnis : OK, Tabelle existierte bereits !</b>';
-      }
-     }
-       else
-     {
-       echo '<b>Ergebnis : OK, Spalte existierte bereits !</b>';
-     }
-   }
     echo '<br><br>';
   }
   echo '</body></html>';

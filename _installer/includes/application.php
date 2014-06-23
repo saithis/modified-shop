@@ -56,6 +56,9 @@
     define('DIR_WS_BASE',''); //web28 - 2010-12-13 - FIX for $messageStack icons //moved to application.php
   }
 
+  // composer autoloader
+  require_once(DIR_FS_CATALOG.'vendor/autoload.php');
+
   //require('../includes/functions/validations.php');
   require_once(DIR_FS_CATALOG.'includes/classes/boxes.php');
   require_once(DIR_FS_CATALOG.'includes/classes/message_stack.php');
@@ -78,6 +81,8 @@
   // include Database functions for installer
   require_once(DIR_FS_INC.'xtc_db_prepare_input.inc.php');
   require_once(DIR_FS_INC.'xtc_db_connect_installer.inc.php');
+  require_once(DIR_FS_INC.'xtc_db_connect.inc.php');
+  require_once(DIR_FS_INC.'xtc_db_get_conn.inc.php');
   require_once(DIR_FS_INC.'xtc_db_select_db.inc.php');
   require_once(DIR_FS_INC.'xtc_db_close.inc.php');
   require_once(DIR_FS_INC.'xtc_db_query_installer.inc.php');

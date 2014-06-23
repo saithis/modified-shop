@@ -15,53 +15,46 @@
    Released under the GNU General Public License 
    --------------------------------------------------------------*/
 
-  require('includes/application_top.php');
+require('includes/application_top.php');
 
-  if ($_GET['action']) {
-    switch ($_GET['action']) {
-      case 'save':
-
-
+if ($_GET['action']) {
+  switch ($_GET['action']) {
+    case 'save':
       // reset values before writing
-       $admin_access_query = xtc_db_query("select * from " . TABLE_ADMIN_ACCESS . " where customers_id = '" . (int)$_GET['cID'] . "'");
-       $admin_access = xtc_db_fetch_array($admin_access_query);
+      $admin_access_query = xtc_db_query("select * from " . TABLE_ADMIN_ACCESS . " where customers_id = '" . (int)$_GET['cID'] . "'");
+      $admin_access = xtc_db_fetch_array($admin_access_query);
 
-       $fields = mysql_list_fields(DB_DATABASE, TABLE_ADMIN_ACCESS);
-       $columns = mysql_num_fields($fields);
+      $fields = array_keys($admin_access);
+      $columns = count($fields);
 
-		for ($i = 0; $i < $columns; $i++) {
-             $field=mysql_field_name($fields, $i);
-                    if ($field!='customers_id') {
-
-                    xtc_db_query("UPDATE ".TABLE_ADMIN_ACCESS." SET
+      for ($i = 0; $i < $columns; $i++) {
+        $field = $fields[$i];
+        if ($field != 'customers_id') {
+          xtc_db_query("UPDATE ".TABLE_ADMIN_ACCESS." SET
                                   ".$field."=0 where customers_id='".(int)$_GET['cID']."'");
-    		}
         }
-
-
+      }
 
       $access_ids='';
-        if(isset($_POST['access'])) foreach($_POST['access'] as $key){
-
-        xtc_db_query("UPDATE ".TABLE_ADMIN_ACCESS." SET ".$key."=1 where customers_id='".(int)$_GET['cID']."'");
-
-        }
-
-        xtc_redirect(xtc_href_link(FILENAME_CUSTOMERS, 'cID=' . (int)$_GET['cID'], 'NONSSL'));
-        break;
+      if(isset($_POST['access'])) foreach($_POST['access'] as $key){
+        xtc_db_update("UPDATE ".TABLE_ADMIN_ACCESS." SET ".$key."=1 where customers_id='".(int)$_GET['cID']."'");
       }
+
+      xtc_redirect(xtc_href_link(FILENAME_CUSTOMERS, 'cID=' . (int)$_GET['cID'], 'NONSSL'));
+      break;
+  }
+}
+if ($_GET['cID'] != '') {
+  if ($_GET['cID'] == 1) {
+    xtc_redirect(xtc_href_link(FILENAME_CUSTOMERS, 'cID=' . (int)$_GET['cID'], 'NONSSL'));
+  } else {
+    $allow_edit_query = xtc_db_query("select customers_status, customers_firstname, customers_lastname from " . TABLE_CUSTOMERS . " where customers_id = '" . (int)$_GET['cID'] . "'");
+    $allow_edit = xtc_db_fetch_array($allow_edit_query);
+    if ($allow_edit['customers_status'] != 0 || $allow_edit == '') {
+      xtc_redirect(xtc_href_link(FILENAME_CUSTOMERS, 'cID=' . (int)$_GET['cID'], 'NONSSL'));
     }
-    if ($_GET['cID'] != '') {
-      if ($_GET['cID'] == 1) {
-        xtc_redirect(xtc_href_link(FILENAME_CUSTOMERS, 'cID=' . (int)$_GET['cID'], 'NONSSL'));
-      } else {
-        $allow_edit_query = xtc_db_query("select customers_status, customers_firstname, customers_lastname from " . TABLE_CUSTOMERS . " where customers_id = '" . (int)$_GET['cID'] . "'");
-        $allow_edit = xtc_db_fetch_array($allow_edit_query);
-        if ($allow_edit['customers_status'] != 0 || $allow_edit == '') {
-          xtc_redirect(xtc_href_link(FILENAME_CUSTOMERS, 'cID=' . (int)$_GET['cID'], 'NONSSL'));
-        }
-      }
-    }
+  }
+}
 ?>
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html <?php echo HTML_PARAMS; ?>>
@@ -169,11 +162,11 @@ function set_checkbox (set) {
       $admin_access = xtc_db_fetch_array($admin_access_query);
     }
 
-$fields = mysql_list_fields(DB_DATABASE, TABLE_ADMIN_ACCESS);
-$columns = mysql_num_fields($fields);
+$fields = array_keys($group_access);
+$columns = count($fields);
 
 for ($i = 0; $i < $columns; $i++) {
-    $field=mysql_field_name($fields, $i);
+    $field = $fields[$i];
     if ($field!='customers_id') {
     $checked='';
     if ($admin_access[$field] == '1') $checked='checked';

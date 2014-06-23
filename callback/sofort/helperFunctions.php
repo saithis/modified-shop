@@ -176,11 +176,7 @@ class HelperFunctions {
 	 * @return string $string
 	 */
 	function escapeSql($string) {
-		if (function_exists('mysql_real_escape_string') && mysql_ping()) {
-			return mysql_real_escape_string($string);
-		} else {
-			return mysql_escape_string($string);
-		}
+    return xtc_db_input($string);
 	}
 	
 	

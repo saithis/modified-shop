@@ -14,36 +14,38 @@
 
    Released under the GNU General Public License
    ---------------------------------------------------------------------------------------*/
-   
-  // include needed functions
-  include_once(DIR_FS_INC . 'xtc_db_error.inc.php');
-  
-  function xtc_db_query($query, $link = 'db_link') {
-    global $$link;
 
-    //echo $query.'<br />';
+/**
+ * @param $query
+ * @param string $link
+ * @return \Doctrine\DBAL\Driver\Statement
+ */
+function xtc_db_query($query, $link = 'db_link') {
+  global $db_last_error;
+  $db_last_error = false;
 
-    //BOF - DokuMan - 2010-02-25 - also check for defined STORE_DB_TRANSACTIONS constant
-    //if (STORE_DB_TRANSACTIONS == 'true') {
-    //  error_log('QUERY ' . $query . "\n", 3, STORE_PAGE_PARSE_TIME_LOG);
-    //}
-    //EOF - DokuMan - 2010-02-25 - also check for defined STORE_DB_TRANSACTIONS constant
-    
-//    $queryStartTime = array_sum(explode(" ",microtime()));
-    $result = mysql_query($query, $$link) or xtc_db_error($query, mysql_errno(), mysql_error());
-//	$queryEndTime = array_sum(explode(" ",microtime())); 
-//	$processTime = $queryEndTime - $queryStartTime;
-//	echo 'time: '.$processTime.' Query: '.$query.'<br />';
+  $conn = xtc_db_get_conn($link);
 
-    //BOF - DokuMan - 2010-02-25 - also check for defined STORE_DB_TRANSACTIONS constant
-    //if (STORE_DB_TRANSACTIONS == 'true') {
-    if (defined('STORE_DB_TRANSACTIONS') && STORE_DB_TRANSACTIONS == 'true') {
-       error_log('QUERY ' . $query . "\n", 3, STORE_PAGE_PARSE_TIME_LOG);
-    //EOF - DokuMan - 2010-02-25 - also check for defined STORE_DB_TRANSACTIONS constant   
-       $result_error = mysql_error();
-       error_log('RESULT ' . $result . ' ' . $result_error . "\n", 3, STORE_PAGE_PARSE_TIME_LOG);
-    }
-
-    return $result;
+  if (defined('STORE_DB_TRANSACTIONS') && STORE_DB_TRANSACTIONS == 'true') {
+    error_log('QUERY ' . $query . "\n", 3, STORE_PAGE_PARSE_TIME_LOG);
   }
-?>
+
+  $result = false;
+  try {
+    $result = $conn->executeQuery($query);
+  }
+  catch(\Doctrine\DBAL\DBALException $e){
+    $db_last_error = $e->getMessage();
+  }
+
+  if (defined('STORE_DB_TRANSACTIONS') && STORE_DB_TRANSACTIONS == 'true') {
+    if(defined('_VALID_XTC')){
+      if($db_last_error) error_log('ERROR  ' . $e->getMessage() . "\n", 3, STORE_PAGE_PARSE_TIME_LOG);
+    }
+    else {
+      error_log('RESULT ' . $result . ' ' . $e->getMessage() . "\n", 3, STORE_PAGE_PARSE_TIME_LOG);
+    }
+  }
+
+  return $result;
+}

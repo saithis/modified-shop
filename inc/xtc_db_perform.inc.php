@@ -14,55 +14,76 @@
 
    Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/
-   
-  function xtc_db_perform($table, $data, $action = 'insert', $parameters = '', $link = 'db_link') {
-    reset($data);
 
-    if ($action == 'insert') {
-      $query = 'insert into ' . $table . ' (';
-      while (list($columns, ) = each($data)) {
-        $query .= $columns . ', ';
-      }
-      $query = substr($query, 0, -2) . ') values (';
-      reset($data);
-      while (list(, $value) = each($data)) {
-      	 $value = (is_Float($value) & PHP4_3_10) ? sprintf("%.F",$value) : (string)($value);
-        switch ($value) {
-          case 'now()':
-            $query .= 'now(), ';
-            break;
-          case 'null':
-            $query .= 'null, ';
-            break;
-          default:
-            $query .= '\'' . xtc_db_input($value) . '\', ';
-            break;
-        }
-      }
-      $query = substr($query, 0, -2) . ')';
-    } elseif ($action == 'update') {
-      $query = 'update ' . $table . ' set ';
-      while (list($columns, $value) = each($data)) {
-         $value = (is_Float($value) & PHP4_3_10) ? sprintf("%.F",$value) : (string)($value);
-      	switch ($value) {
-          case 'now()':
-            $query .= $columns . ' = now(), ';
-            break;
-          case 'null':
-            //BOF - Dokuman - 2009-11-30 - fixed minor typo (=)
-            //$query .= $columns .= ' = null, ';
-            $query .= $columns . ' = null, ';
-            //EOF - Dokuman - 2009-11-30 - fixed minor typo (=)
-            
-            break;
-          default:
-            $query .= $columns . ' = \'' . xtc_db_input($value) . '\', ';
-            break;
-        }
-      }
-      $query = substr($query, 0, -2) . ' where ' . $parameters;
-    }
-
-    return xtc_db_query($query, $link);
+/**
+ * @param $table
+ * @param $data
+ * @param string $mode
+ * @param bool $where
+ * @param string $link
+ * @return int number of affected rows
+ */
+function xtc_db_perform($table, $record, $mode = 'insert', $where = false, $link = 'db_link') {
+  if(empty($record)){
+    return 0;
   }
- ?>
+
+  $mode = strtoupper($mode);
+  $conn = xtc_db_get_conn($link);
+  reset($record);
+
+  if ($mode == 'REPLACE') {
+    $sql = 'SELECT count(*) total FROM '.$table;
+    if($where !== false){
+      $sql .= ' WHERE '.$where;
+    }
+    if($conn->fetchColumn($sql, array(), 0) == 0) {
+      $mode = 'INSERT';
+      $where = false;
+    }
+    else {
+      $mode = 'UPDATE';
+    }
+  }
+
+  if($mode == 'UPDATE' && $where === false){
+    $error = "xtc_db_perform: update without 'where' doesn't work! <br />";
+    $error .= "$table <br />";
+    foreach($record as $key => $value){
+      $error .= "$key => $value <br />";
+    }
+    xtc_db_error('', '', $error);
+    die;
+  }
+
+  $sm = $conn->getSchemaManager();
+  $columns = $sm->listTableColumns(str_replace(array('?','`'), '', $table));
+  $set = array();
+  foreach ($columns as $column) {
+    if(isset($record[$column->getName()])){
+      $value = $record[$column->getName()];
+      if(empty($value)){
+        $value = "''";
+      }
+      else if($value !== 'now()' && $value !== 'null'){
+        $value = $conn->quote($value, $column->getType()->getBindingType());
+      }
+      $set[$column->getName()] = $value;
+    }
+  }
+
+  switch($mode){
+    case 'INSERT':
+      $sql = 'INSERT INTO '.$table.' ('.implode(',', array_keys($set)).') VALUES ('.implode(',', $set).')';
+      return $conn->executeUpdate($sql);
+    case 'UPDATE':
+      $pairs = array();
+      foreach($set as $field => $value){
+        $pairs[] = $field.' = '.$value;
+      }
+
+      $sql = 'UPDATE '.$table.' SET '.implode(', ', $pairs).' WHERE '.$where;
+      return $conn->executeUpdate($sql);
+  }
+  return 0;
+}

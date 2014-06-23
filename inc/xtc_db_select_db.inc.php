@@ -15,7 +15,7 @@
    Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/
    
-  function xtc_db_select_db($database) {
-    return mysql_select_db($database);
-  }
- ?>
+function xtc_db_select_db($database, $link = 'db_link') {
+  $conn = xtc_db_get_conn($link);
+  return $conn->executeQuery('USE '.$database);
+}

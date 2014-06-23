@@ -15,17 +15,18 @@
    Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/
    
-function xtc_db_test_connection($database) {
+  function xtc_db_test_connection($database) {
     global $db_error;
+    $conn = xtc_db_get_conn();
 
     $db_error = false;
 
     if (!$db_error) {
       if (!@xtc_db_select_db($database)) {
-        $db_error = mysql_error();
+        $db_error = print_r($conn->errorInfo(), true);
       } else {
         if (!@xtc_db_query_installer('select count(*) from configuration')) {
-          $db_error = mysql_error();
+          $db_error = print_r($conn->errorInfo(), true);
         }
       }
     }

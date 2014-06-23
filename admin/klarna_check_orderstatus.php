@@ -61,7 +61,7 @@ class KlarnaCheckOrder
     {
         global $xtPrice;
 
-        $orderId = mysql_real_escape_string($_GET['oID']);
+        $orderId = xtc_db_input($_GET['oID']);
 
         $comments = $this->_getComments($orderId);
 

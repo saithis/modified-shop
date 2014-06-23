@@ -15,7 +15,15 @@
    Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/
    
-  function xtc_db_error($query, $errno, $error) { 
+  function xtc_db_error($query, $errno, $error) {
+    if(is_array($error)){
+      $error = print_r($error, true);
+    }
+
+    // check if this is this called from the admin
+    if(defined('_VALID_XTC')){
+      die('<font color="#000000"><strong>' . $errno . ' - ' . $error . '<br /><br />' . $query . '<br /><br /><small><font color="#ff0000">[MOD SQL Error]</font></small><br /><br /></strong></font>');
+    }
   
     // Deliver 503 Error on database error (so crawlers won't index the error page)
     if (!defined('DIR_FS_ADMIN')) {
