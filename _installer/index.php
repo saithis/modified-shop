@@ -65,7 +65,7 @@
       $messageStack->add('index', SELECT_LANGUAGE_ERROR);
     }
     if ($error == false) {
-      xtc_redirect(xtc_href_link('install_step1.php?lg='. xtc_db_prepare_input($_POST['LANGUAGE']), '', 'NONSSL'));
+      xtc_redirect(xtc_href_link('install_step0.php?lg='. xtc_db_prepare_input($_POST['LANGUAGE']), '', 'NONSSL'));
     }
   }
 

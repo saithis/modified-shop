@@ -277,3 +277,10 @@
   define('FTP_PASSWORD', 'FTP-Passwort');
   define('CONNECT_FTP', 'FTP verbinden');
   // EOC flth new permission change system
+
+
+  define('TEXT_WELCOME_STEP0', 'Schritt 0 - Zusatzsoftware installieren');
+  define('TITLE_COMPOSER_INFO', 'Paketmanager Informationen');
+  define('TITLE_COMPOSER_TEXT', 'Sobald Sie auf "weiter" klicken, wird der Paketmanager composer heruntergeladen werden, welcher anschließend die nötigen 3rd Party Bibliotheken wie Doctrine DBAL installiert.');
+  define('TEXT_COMPOSER_DOWNOAD_ERROR', 'composer konnte leider nicht heruntergeladen werden.');
+  define('TEXT_COMPOSER_INSTALL_ERROR', 'composer konnte die nötigen Bibliotheken nicht installieren.');

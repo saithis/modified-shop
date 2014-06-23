@@ -275,3 +275,9 @@
   define ('FTP_PASSWORD', 'FTP password');
   define ('CONNECT_FTP', 'FTP connect');
   // EOC flth new permission change system
+
+  define('TEXT_WELCOME_STEP0', 'Step 0 - install additional software');
+  define('TITLE_COMPOSER_INFO', 'Dependency Manager Information');
+  define('TITLE_COMPOSER_TEXT', 'With the click on "continue" the dependency manager composer will be downloaded, which in turn downloads the necessary 3rd party libraries.');
+  define('TEXT_COMPOSER_DOWNOAD_ERROR', 'composer couldn\'t be downloaded.');
+  define('TEXT_COMPOSER_INSTALL_ERROR', 'composer couldn\'t install the necessary 3rd party libraries.');
