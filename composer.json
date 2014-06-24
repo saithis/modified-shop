@@ -2,6 +2,7 @@
     "name": "insolution/xtcmodified",
     "version": "1.6.4642",
     "require": {
+        "doctrine/dbal": "2.4.*"
     },
     "autoload": {
         "psr-4": { "": "includes/classes/" }
