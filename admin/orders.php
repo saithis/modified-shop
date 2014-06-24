@@ -46,7 +46,7 @@ function get_payment_name($payment_method) {
 }
 
 // initiate template engine for mail
-$smarty = new Smarty;
+$smarty = new XTC\Template\Template;
 require (DIR_WS_CLASSES.'currencies.php');
 $currencies = new currencies();
 

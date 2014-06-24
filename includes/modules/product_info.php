@@ -43,7 +43,7 @@ if (!is_object($product) || !$product->isProduct()) {
 
 } else {
 
-  $info_smarty = new Smarty;
+  $info_smarty = new XTC\Template\Template;
   $info_smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
   include_once(DIR_WS_INCLUDES.'modules/payment/klarna/display_klarna_price.php'); // Klarna payment module integration
 

@@ -18,7 +18,7 @@ $language = HelperFunctions::getSofortLanguage($_SESSION['language']);
 include(DIR_WS_LANGUAGES.$language.'/modules/payment/sofort_sofortvorkasse.php');
 
 // create smarty elements
-$smarty = new Smarty;
+$smarty = new XTC\Template\Template;
 // include boxes
 require_once(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/source/boxes.php');
 

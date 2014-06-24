@@ -2,9 +2,16 @@
     "name": "insolution/xtcmodified",
     "version": "1.6.4642",
     "require": {
-        "doctrine/dbal": "2.4.*"
+        "doctrine/dbal": "2.4.*",
+        "twig/twig": ">=1.8,<2.0-dev",
+        "symfony/twig-bridge": "~2.5",
+        "symfony/translation": "~2.5",
+        "symfony/config": "~2.5"
     },
     "autoload": {
-        "psr-4": { "": "includes/classes/" }
+        "psr-4": {
+            "XTC\\": "includes/classes/",
+            "": "includes/classes/"
+        }
     }
 }

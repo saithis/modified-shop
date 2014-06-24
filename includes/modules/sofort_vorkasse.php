@@ -13,7 +13,7 @@ require_once(DIR_FS_CATALOG.'callback/sofort/helperFunctions.php');
 include(DIR_WS_LANGUAGES.$_SESSION['language'].'/modules/payment/sofort_sofortvorkasse.php');
 
 // create module_smarty elements
-$module_smarty = new smarty;
+$module_smarty = new XTC\Template\Template;
 
 // include boxes
 require_once(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/source/boxes.php');

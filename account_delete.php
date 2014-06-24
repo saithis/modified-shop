@@ -21,7 +21,7 @@ require_once (DIR_FS_INC.'xtc_validate_password.inc.php');
 //EOF - 2009-08-25 - Require password to disable account
 
 // create smarty elements
-$smarty = new Smarty;
+$smarty = new XTC\Template\Template;
 // include boxes
 require (DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/source/boxes.php');
 

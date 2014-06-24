@@ -15,7 +15,7 @@
 
    Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/
-$box_smarty = new smarty;
+$box_smarty = new XTC\Template\Template;
 $content_string = '';
 //$rebuild = false; //DokuMan - 2010-02-28 - fix Smarty cache error on unlink
 

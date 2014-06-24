@@ -21,7 +21,7 @@
    ---------------------------------------------------------------------------------------*/
 
 // reset var
-$box_smarty = new smarty;
+$box_smarty = new XTC\Template\Template;
 $box_content = '';
 $box_smarty->assign('tpl_path', 'templates/' . CURRENT_TEMPLATE . '/');
 // BOF - GTB - 2010-09-20 - correct the Formular in dependences of the request type SSL / NONSSL

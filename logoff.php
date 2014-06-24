@@ -29,7 +29,7 @@
 
 include ('includes/application_top.php');
 // create smarty elements
-$smarty = new Smarty;
+$smarty = new XTC\Template\Template;
 
 //BOF - DokuMan - 2010-05-28 - delete Guests from Database when logging off, also see checkout_success.php
 if (($_SESSION['account_type'] == 1) && (DELETE_GUEST_ACCOUNT == 'true')) {

@@ -24,7 +24,7 @@
   if (!isset($_SESSION['customer_id'])) {
     require_once (DIR_FS_INC.'xtc_image_submit.inc.php');
     require_once (DIR_FS_INC.'xtc_draw_password_field.inc.php');
-    $box_smarty = new smarty;
+    $box_smarty = new XTC\Template\Template;
     $box_smarty->assign('tpl_path','templates/'.CURRENT_TEMPLATE.'/');
     $box_smarty->assign('FORM_ACTION', '<form id="loginbox" method="post" action="'.xtc_href_link(FILENAME_LOGIN, 'action=process', 'SSL').'">');
     $box_smarty->assign('FIELD_EMAIL', xtc_draw_input_field('email_address', '', 'maxlength="50" style="width:170px;"'));

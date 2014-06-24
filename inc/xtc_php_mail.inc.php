@@ -27,7 +27,7 @@ function xtc_php_mail($from_email_address, $from_email_name,
 // Signatur für E-Mails
 // by Dipl.-Ing. Daniel Wallas für www.tuvino.de
 //*********************************************************************************************
-  $mailsmarty= new Smarty;
+  $mailsmarty= new XTC\Template\Template;
   $mailsmarty->compile_dir = DIR_FS_CATALOG.'templates_c';
 
   

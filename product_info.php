@@ -25,7 +25,7 @@
 include ('includes/application_top.php');
 
 // create smarty elements
-$smarty = new Smarty;
+$smarty = new XTC\Template\Template;
 
 // redirect
 if (!isset($_GET['products_id']) && !isset($_GET['info']) && !isset($_GET['action'])) {

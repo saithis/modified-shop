@@ -44,7 +44,7 @@
   // dont show box if there's only 1 language
   if ($count_lng > 1 ) {
 
- $box_smarty = new smarty;
+ $box_smarty = new XTC\Template\Template;
  $box_smarty->assign('tpl_path','templates/'.CURRENT_TEMPLATE.'/'); 
  $box_content='';
  $box_smarty->assign('BOX_CONTENT', $languages_string);

@@ -22,7 +22,7 @@
 
 include ('includes/application_top.php');
 // create smarty elements
-$smarty = new Smarty;
+$smarty = new XTC\Template\Template;
 // include boxes
 require (DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/source/boxes.php');
 // include needed function

@@ -16,7 +16,7 @@
    Released under the GNU General Public License 
    ---------------------------------------------------------------------------------------*/
 
-$module_smarty = new Smarty;
+$module_smarty = new XTC\Template\Template;
 $module_smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
 // include needed files
 

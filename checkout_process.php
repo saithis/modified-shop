@@ -37,7 +37,7 @@ require_once (DIR_FS_INC.'xtc_address_label.inc.php');
 require_once (DIR_FS_INC.'changedatain.inc.php');
 
 // initialize smarty
-$smarty = new Smarty;
+$smarty = new XTC\Template\Template;
 
 // BOF - Tomcraft - 2009-10-03 - Paypal Express Modul
 if (@is_array($_SESSION['nvpReqArray']) && $_SESSION['payment'] == 'paypalexpress') {

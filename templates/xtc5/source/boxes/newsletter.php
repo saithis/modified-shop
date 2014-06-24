@@ -16,7 +16,7 @@
    ---------------------------------------------------------------------------------------*/
 
 
-$box_smarty = new smarty;
+$box_smarty = new XTC\Template\Template;
 $box_content='';
 $rebuild = false;
 

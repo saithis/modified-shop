@@ -18,7 +18,7 @@
 
 include ('includes/application_top.php');
 // create smarty elements
-$smarty = new Smarty;
+$smarty = new XTC\Template\Template();
 // include boxes
 require (DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/source/boxes.php');
 // include needed functions
@@ -93,7 +93,7 @@ $smarty->assign('FORM_END', '</form>');
 $smarty->assign('language', $_SESSION['language']);
 
 $smarty->caching = 0;
-$main_content = $smarty->fetch(CURRENT_TEMPLATE.'/module/account_password.html');
+$main_content = $smarty->fetch(CURRENT_TEMPLATE.'/module/account_password.html.twig');
 
 $smarty->assign('language', $_SESSION['language']);
 $smarty->assign('main_content', $main_content);

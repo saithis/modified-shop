@@ -2295,7 +2295,7 @@ function OrderUpdate ()
           require_once(DIR_FS_INC . 'xtc_href_link.inc.php');
           require_once(DIR_FS_INC . 'xtc_date_long.inc.php');
           require_once(DIR_FS_INC . 'xtc_check_agent.inc.php');
-          $smarty = new Smarty;
+          $smarty = new XTC\Template\Template;
 
           $smarty->assign('language', $check_status['language']);
           $smarty->caching = false;
@@ -2492,7 +2492,7 @@ function CustomersUpdate ()
     require_once(DIR_FS_LANGUAGES . $Lang_folder . '/admin/' . $Lang_folder . '.php');  //JP 20080102
 
 
-    $smarty = new Smarty;
+    $smarty = new XTC\Template\Template;
 
     //$smarty->assign('language', $check_status['language']);
     $smarty->assign('language', $Lang_folder);

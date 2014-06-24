@@ -18,7 +18,7 @@
 
 include ('includes/application_top.php');
 
-$smarty = new Smarty;
+$smarty = new XTC\Template\Template;
 
 include ('includes/header.php');
 

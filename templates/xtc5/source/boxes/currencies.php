@@ -42,7 +42,7 @@
   // dont show box if there's only 1 currency
   if ($count_cur > 1 ) {
   // reset var
-  $box_smarty = new smarty;
+  $box_smarty = new XTC\Template\Template;
   $box_smarty->assign('tpl_path','templates/'.CURRENT_TEMPLATE.'/');
   $box_content='';
   $box_content=xtc_draw_form('currencies', xtc_href_link(basename($PHP_SELF), '', $request_type, false), 'get').xtc_draw_pull_down_menu('currency', $currencies_array, $_SESSION['currency'], 'onChange="this.form.submit();" style="width: 100%"') . $hidden_get_variables . xtc_hide_session_id().'</form>';
