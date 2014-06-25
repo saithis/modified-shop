@@ -66,8 +66,10 @@ $composer_error = false;
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'install'){
 
   chdir(__DIR__.'/../');
+
   if(!file_exists(__DIR__.'/../composer.phar')){
     $last_line = exec('curl -sS https://getcomposer.org/installer | php', $retarray, $composer_error);
+    
     if($composer_error) {
       $composer_error = TEXT_COMPOSER_DOWNOAD_ERROR;
       $composer_error .= '<br><br><b>Composer output:</b><br>'.implode('<br>', $retarray);
@@ -83,12 +85,13 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'install'){
   }
 
   putenv('COMPOSER_HOME=' . __DIR__.'/.composer');
-  $last_line = exec('composer.phar install 2>&1', $retarray, $composer_error);
+  $last_line = exec('php composer.phar install 2>&1', $retarray, $composer_error);
   if($composer_error) {
     $composer_error = TEXT_COMPOSER_INSTALL_ERROR;
     $composer_error .= '<br><br><b>Composer output:</b><br>'.implode('<br>', $retarray);
   }
-  chdir(__DIR__.'/_installer/');
+
+  chdir(__DIR__);
 
   if(empty($composer_error)){
     header('Location: install_step1.php');
