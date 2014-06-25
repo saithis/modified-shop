@@ -326,6 +326,8 @@
                                   <?php // EOF - Hendrik - 2010-08-06 - preselection bug found by Robert/Robo-X - modified by Dokuman 2010-10-13 ?>
                                   <?php
                                   $payments = explode(';', MODULE_PAYMENT_INSTALLED); // Hetfield - 2009-08-18 - replaced deprecated function split with explode to be ready for PHP >= 5.3
+                                  // remove empty array elements
+                                  $payments = array_filter($payments);
                                   for ($i=0; $i<count($payments); $i++){
                                     require(DIR_FS_LANGUAGES . $_SESSION['language'] . '/modules/payment/' . $payments[$i]);
                                     $payment = substr($payments[$i], 0, strrpos($payments[$i], '.'));

@@ -262,12 +262,16 @@ class Smarty_Compiler extends Smarty {
         reset($this->_folded_blocks);
 
         /* replace special blocks by "{php}" */
+        
+        #Preventing Fatal error: Using $this when not in object context
+        $thisObj = $this;
         $source_content = preg_replace_callback(
             $search,
-            function($m){
-                return $this->_quote_replace($this->left_delimiter).'php'
+            #Preventing Fatal error: Using $this when not in object context
+            function($m) use ($thisObj){
+                return $thisObj->_quote_replace($thisObj->left_delimiter).'php'
                        .str_repeat("\n", substr_count($m[0], "\n"))
-                       .$this->_quote_replace($this->right_delimiter);
+                       .$thisObj->_quote_replace($thisObj->right_delimiter);
             },
             $source_content
         );
