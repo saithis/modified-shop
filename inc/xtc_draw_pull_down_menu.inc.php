@@ -25,13 +25,15 @@
 
     if (empty($default) && isset($GLOBALS[$name])) $default = $GLOBALS[$name];
 
-    for ($i=0, $n=sizeof($values); $i<$n; $i++) {
-      $field .= '<option value="' . xtc_parse_input_field_data($values[$i]['id'], array('"' => '&quot;')) . '"';
-      if ($default == $values[$i]['id']) {
+    foreach ($values as $val) {
+      $id = is_array($val) ? $val['id'] : $val;
+      $text = is_array($val) ? $val['text'] : $val;
+
+      $field .= '<option value="' .xtc_parse_input_field_data($id, array('"' => '&quot;')) . '"';
+      if ($default == $id) {
         $field .= ' selected="selected"';
       }
-
-      $field .= '>' . xtc_parse_input_field_data($values[$i]['text'], array('"' => '&quot;', '\'' => '&#039;', '<' => '&lt;', '>' => '&gt;')) . '</option>';
+      $field .= '>' . xtc_parse_input_field_data($text, array('"' => '&quot;', '\'' => '&#039;', '<' => '&lt;', '>' => '&gt;')) . '</option>';
     }
     $field .= '</select>';
 
@@ -40,28 +42,13 @@
     return $field;
   }
   
-    function xtc_draw_pull_down_menuNote($data, $values, $default = '', $parameters = '', $required = false) {
-    $field = '<select name="' . xtc_parse_input_field_data($data['name'], array('"' => '&quot;')) . '"';
+  function xtc_draw_pull_down_menuNote($data, $values, $default = '', $parameters = '', $required = false) {
+    $field = xtc_draw_pull_down_menu($data['name'], $values, $default, $parameters, false);
+    $field .= $data['text'];
 
-    if (xtc_not_null($parameters)) $field .= ' ' . $parameters;
-
-    $field .= '>';
-
-    if (empty($default) && isset($GLOBALS[$data['name']])) $default = $GLOBALS[$data['name']];
-
-    for ($i=0, $n=sizeof($values); $i<$n; $i++) {
-      $field .= '<option value="' . xtc_parse_input_field_data($values[$i]['id'], array('"' => '&quot;')) . '"';
-      if ($default == $values[$i]['id']) {
-        $field .= ' selected="selected"';
-      }
-
-      $field .= '>' . xtc_parse_input_field_data($values[$i]['text'], array('"' => '&quot;', '\'' => '&#039;', '<' => '&lt;', '>' => '&gt;')) . '</option>';
+    if ($required == true) {
+      $field .= TEXT_FIELD_REQUIRED;
     }
-    $field .= '</select>'.$data['text'];
-
-    if ($required == true) $field .= TEXT_FIELD_REQUIRED;
 
     return $field;
   }
-
- ?>

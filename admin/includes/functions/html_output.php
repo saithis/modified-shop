@@ -262,14 +262,14 @@
     $field .= '>';
     if (is_array($values)) {
       foreach ($values as $key=>$val) {
-        $field .= '<option value="' .$val['id'] . '"';
-        //BOF - DokuMan - 2010-09-08 - set undefined index
-        if ( ((strlen($val['id']) > 0) && isset($GLOBALS[$name]) && ($GLOBALS[$name] == $val['id'])) || ($default == $val['id']) ) {
-          //if ( ((strlen($val['id']) > 0) && ($GLOBALS[$name] == $val['id'])) || ($default == $val['id']) ) {
-          //EOF - DokuMan - 2010-09-08 - set undefined index
+        $id = is_array($val) ? $val['id'] : $val;
+        $text = is_array($val) ? $val['text'] : $val;
+
+        $field .= '<option value="' .$id . '"';
+        if ( ((strlen($id) > 0) && isset($GLOBALS[$name]) && ($GLOBALS[$name] == $id)) || ($default == $id) ) {
           $field .= ' SELECTED';
         }
-        $field .= '>' . $val['text'] . '</option>';
+        $field .= '>' . $text . '</option>';
       }
     }
     $field .= '</select>';

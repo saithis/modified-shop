@@ -108,14 +108,60 @@
           <td class="main"><?php echo xtc_draw_input_field('sort_order', $cInfo->sort_order, 'style="width: 130px"'); ?></td>
         </tr>
         <tr>
-          <td><span class="main"><?php echo TEXT_CHOOSE_INFO_TEMPLATE_LISTING; ?>:</span></td>
-          <td><span class="main"><?php echo $catfunc->create_templates_dropdown_menu('listing_template','/module/product_listing/',$cInfo->listing_template, 'style="width: 200px"');?></span></td>
+          <td><span class="main"><?php echo TEXT_CHOOSE_LISTING_MODULE; ?>:</span></td>
+          <td><span class="main"><?php echo xtc_draw_pull_down_menu('listing_module', $catfunc->get_listing_modules(), $cInfo->listing_module, 'style="width: 200px" id="listing_module_select"');?></span></td>
         </tr>
         <tr>
-          <td><span class="main"><?php echo TEXT_CHOOSE_INFO_TEMPLATE_CATEGORIE; ?>:</span></td>
-          <td><span class="main"><?php echo $catfunc->create_templates_dropdown_menu('categories_template','/module/categorie_listing/',$cInfo->categories_template, 'style="width: 200px"');?></span></td>
+          <td><span class="main"><?php echo TEXT_CHOOSE_INFO_TEMPLATE_LISTING; ?>:</span></td>
+          <td>
+            <span class="main">
+              <?php
+              $listing_modules = array_flip($catfunc->get_listing_modules());
+              foreach($listing_modules as $module => $num){
+                $listing_modules[$module] = $catfunc->get_listing_templates($module);
+              }
+              ?>
+              <select name="listing_template" style="width: 200px" id="listing_template_select">
+
+              </select>
+            </span>
+          </td>
         </tr>
       </table>
+      <script type="text/javascript">
+        (function(){
+          var selected_template = '<?php echo $cInfo->listing_template; ?>';
+          var listing_templates = <?php echo json_encode($listing_modules); ?>;
+
+          var module_select = document.getElementById('listing_module_select');
+          var template_select = document.getElementById('listing_template_select');
+          module_select.onchange = function(){
+            var module = module_select.value;
+            if(!listing_templates[module]){
+              template_select.html = '';
+            }
+            else {
+              var options = '', selection_found = false;
+              for(var i in listing_templates[module]){
+                if(!listing_templates[module].hasOwnProperty(i)){
+                  continue;
+                }
+                var template = listing_templates[module][i];
+                var selected = '';
+                if(selected_template == template){
+                  selected = ' selected="selected" ';
+                  selection_found = true;
+                }
+                options += '<option value="'+template+'" '+selected+'>'+template+'</option>';
+              }
+              options = '<option value="" '+(selection_found ? '' : 'selected="selected"')+'><?php echo TEXT_SELECT; ?></option>'+options;
+              template_select.innerHTML = options;
+            }
+          };
+
+          module_select.onchange();
+        })();
+      </script>
       </div>
       <!-- EOF - Tomcraft - 2009-11-02 - Block1 //-->
 

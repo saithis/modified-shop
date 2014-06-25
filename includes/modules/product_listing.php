@@ -89,15 +89,25 @@ if ($listing_split->number_of_rows > 0) {
 
 if ($result != false) {
   // get default template
+  $template_paths = array(
+    CURRENT_TEMPLATE.'/module/listing/product_listing/',
+    CURRENT_TEMPLATE.'/module/product_listing/' // fallback for old templates
+  );
   if (!array_key_exists('listing_template', $category) || $category['listing_template'] == '' || $category['listing_template'] == 'default') {
     $files = array ();
-    if ($dir = opendir(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/module/product_listing/')) {
-      while (($file = readdir($dir)) !== false) {
-        if (is_file(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/module/product_listing/'.$file) and (substr($file, -5) == ".html") and ($file != "index.html") and (substr($file, 0, 1) !=".")) {
-          $files[] = $file;
-        }
+    foreach($template_paths as $l_dir){
+      $l_dir = DIR_FS_CATALOG.'templates/'.$l_dir;
+      if(!is_dir($l_dir)){
+        continue;
       }
-      closedir($dir);
+      if ($dir = opendir($l_dir)) {
+        while (($file = readdir($dir)) !== false) {
+          if (is_file($l_dir.$file) and (substr($file, -5) == ".html") and ($file != "index.html") and (substr($file, 0, 1) !=".")) {
+            $files[] = $file;
+          }
+        }
+        closedir($dir);
+      }
     }
     sort($files);
     $category['listing_template'] = $files[0];
@@ -110,7 +120,7 @@ if ($result != false) {
   // set cache ID
    if (!CacheCheck()) {
     $module_smarty->caching = 0;
-    $module = $module_smarty->fetch(CURRENT_TEMPLATE.'/module/product_listing/'.$category['listing_template']);
+    $cache_id = NULL;
   } else {
     $module_smarty->caching = 1;
     $module_smarty->cache_lifetime = CACHE_LIFETIME;
@@ -128,9 +138,15 @@ if ($result != false) {
     $get_params .= isset($_GET['y']) && $_GET['y'] >= 0 ? '_'.(int)$_GET['y'] : '';
 
     $cache_id = $current_category_id.'_'.$_SESSION['language'].'_'.$_SESSION['customers_status']['customers_status_name'].'_'.$_SESSION['currency'].$get_params;
-    $module = $module_smarty->fetch(CURRENT_TEMPLATE.'/module/product_listing/'.$category['listing_template'], $cache_id);
   }
-  $smarty->assign('main_content', $module);
+  $main_content = '';
+  foreach($template_paths as $l_dir){
+    if(file_exists(DIR_FS_CATALOG.'templates/'.$l_dir.$category['listing_template'])){
+      $main_content = $module_smarty->fetch($l_dir.$category['listing_template'], $cache_id);
+      break;
+    }
+  }
+  $smarty->assign('main_content', $main_content);
 } else {
   $error = TEXT_PRODUCT_NOT_FOUND;
   include (DIR_WS_MODULES.FILENAME_ERROR_HANDLER);
