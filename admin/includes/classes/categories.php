@@ -1131,19 +1131,30 @@ class categories {
   // ----------------------------------------------------------------------------------------------------- //
 
   function get_listing_templates($listing_module){
-    $path = DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/module/listing/'.$listing_module.'/';
+    $paths = array(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/module/listing/'.$listing_module.'/');
+
+    // fallback for old templates
+    if($listing_module == 'product_listing'){
+      $paths[] = DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/module/product_listing/';
+    }
+    if($listing_module == 'category_listing'){
+      $paths[] = DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/module/categorie_listing/';
+    }
+
     $files = array ();
-    if(is_dir($path)){
-      if ($dir = opendir($path)) {
-        while (($file = readdir($dir)) !== false) {
-          if (is_file($path.$file) && substr($file, -5) == ".html" && $file != "index.html" && substr($file, 0, 1) != ".") {
-            $files[] = $file;
+    foreach($paths as $path){
+      if(is_dir($path)){
+        if ($dir = opendir($path)) {
+          while (($file = readdir($dir)) !== false) {
+            if (is_file($path.$file) && substr($file, -5) == ".html" && $file != "index.html" && substr($file, 0, 1) != ".") {
+              $files[] = $file;
+            }
           }
+          closedir($dir);
         }
-        closedir($dir);
       }
     }
-    return $files;
+    return array_unique($files);
   }
 
   // ----------------------------------------------------------------------------------------------------- //
