@@ -68,10 +68,6 @@ if (version_compare(PHP_VERSION, '5.1.0', '>=')) {
 include_once(DIR_WS_CLASSES.'class.debug.php');
 $log = new debug;
 
-// for xtc_db_perform
-$php4_3_10 = (0 == version_compare(phpversion(), "4.3.10"));
-define('PHP4_3_10', $php4_3_10);
-
 // project version
 define('PROJECT_VERSION', 'modified eCommerce Shopsoftware');
 

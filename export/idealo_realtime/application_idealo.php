@@ -42,8 +42,6 @@ if (file_exists('../../includes/local/configure.php')) {
 	include dirname ( __FILE__ ) . '/../../includes/configure.php';
 }
 
-$php4_3_10 = (0 == version_compare(phpversion(), "4.3.10"));
-define('PHP4_3_10', $php4_3_10);
 // define the project version
 define('PROJECT_VERSION', 'xt:Commerce v3.0.4 SP2.1');
 
