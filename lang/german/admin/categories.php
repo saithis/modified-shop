@@ -157,8 +157,8 @@ define('HEADING_PRODUCTS_MEDIA','<b>Artikelmedium</b>');
 define('TABLE_HEADING_PRICE','Preis');
 
 define('TEXT_FSK18','FSK 18:');
-define('TEXT_CHOOSE_INFO_TEMPLATE_CATEGORIE','Vorlage f&uuml;r Kategorie&uuml;bersicht');
-define('TEXT_CHOOSE_INFO_TEMPLATE_LISTING','Vorlage f&uuml;r Artikel&uuml;bersicht');
+define('TEXT_CHOOSE_LISTING_MODULE','Modul f&uuml;r Artikel-/Kategorie&uuml;bersicht');
+define('TEXT_CHOOSE_INFO_TEMPLATE_LISTING','Vorlage f&uuml;r Artikel-/Kategorie&uuml;bersicht');
 // BOF - Tomcraft - 2009-11-02 - Admin language tabs
 //define('TEXT_PRODUCTS_SORT','Reihung:');
 define('TEXT_PRODUCTS_SORT','Sortierreihenfolge:');

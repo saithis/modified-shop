@@ -157,7 +157,7 @@ class categories {
                             'categories_status' => $categories_status,
                             'products_sorting' => xtc_db_prepare_input($categories_data['products_sorting']),
                             'products_sorting2' => xtc_db_prepare_input($categories_data['products_sorting2']),
-                            'categories_template' => xtc_db_prepare_input($categories_data['categories_template']),
+                            'listing_module' => xtc_db_prepare_input($categories_data['listing_module']),
                             'listing_template' => xtc_db_prepare_input($categories_data['listing_template'])
                             );
 
@@ -1110,6 +1110,51 @@ class categories {
     $default_array = array (array ('id' => 'default', 'text' => (count($files) > 0) ? TEXT_SELECT : TEXT_NO_FILE));
     $files = array_merge($default_array, $files);
     return xtc_draw_pull_down_menu($template, $files, $default_value, $style);
+  }
+
+  // ----------------------------------------------------------------------------------------------------- //
+
+  function get_listing_modules(){
+    $path = DIR_FS_CATALOG.'includes/modules/listing/';
+    $listing_modules = array ();
+    if ($dir = opendir($path)) {
+      while (($file = readdir($dir)) !== false) {
+        if (is_file($path.$file) && (substr($file, -4) == ".php")) {
+          $listing_modules[] = substr($file, 0, strlen($file) - 4);
+        }
+      }
+      closedir($dir);
+    }
+    return $listing_modules;
+  }
+
+  // ----------------------------------------------------------------------------------------------------- //
+
+  function get_listing_templates($listing_module){
+    $paths = array(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/module/listing/'.$listing_module.'/');
+
+    // fallback for old templates
+    if($listing_module == 'product_listing'){
+      $paths[] = DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/module/product_listing/';
+    }
+    if($listing_module == 'category_listing'){
+      $paths[] = DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/module/categorie_listing/';
+    }
+
+    $files = array ();
+    foreach($paths as $path){
+      if(is_dir($path)){
+        if ($dir = opendir($path)) {
+          while (($file = readdir($dir)) !== false) {
+            if (is_file($path.$file) && substr($file, -5) == ".html" && $file != "index.html" && substr($file, 0, 1) != ".") {
+              $files[] = $file;
+            }
+          }
+          closedir($dir);
+        }
+      }
+    }
+    return array_unique($files);
   }
 
   // ----------------------------------------------------------------------------------------------------- //
