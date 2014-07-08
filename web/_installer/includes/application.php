@@ -57,8 +57,8 @@
   }
 
   // composer autoloader
-  if(file_exists(DIR_FS_CATALOG.'vendor/autoload.php')){
-    require_once(DIR_FS_CATALOG.'vendor/autoload.php');
+  if(file_exists(DIR_FS_CATALOG.'../vendor/autoload.php')){
+    require_once(DIR_FS_CATALOG.'../vendor/autoload.php');
   }
 
   //require('../includes/functions/validations.php');
